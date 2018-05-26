@@ -1,0 +1,13 @@
+.SubHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: grey;
+  height: 60px;
+}
+
+.SubHeader h2 {
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 0px;
+}

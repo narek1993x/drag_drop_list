@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Aux from '../Aux'
 import SubHeader from '../SubHeader'
+import './Layout.css'
 
 export default class Layout extends Component {
   render() {
