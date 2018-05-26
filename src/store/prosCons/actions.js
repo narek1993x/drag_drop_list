@@ -7,6 +7,10 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
+export const updateList = (list, keyList) => {
+  return { type: types.UPDATE_LIST, payload: {list, keyList}}
+}
+
 export const addInput = props => {
   const newProps = {...props, id: guid()}
   return { type: types.ADD_INPUT, payload: newProps}

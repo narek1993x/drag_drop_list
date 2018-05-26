@@ -45,6 +45,7 @@ body {
   top: 0px;
   background: #ffffff;
   z-index: 1;
+  text-transform: uppercase;
 }
 
 .InputList-content {

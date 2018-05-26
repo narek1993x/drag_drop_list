@@ -1,19 +1,23 @@
 import * as types from './actionTypes'
 
 const initialState = {
-  prosList: [],
-  consList: []
+  pros: [],
+  cons: []
 }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case types.UPDATE_LIST:
+      const updateListKey = action.payload.keyList
+      return {...state, [updateListKey]: action.payload.list}
+      break;
     case types.ADD_INPUT:
-      const key = action.payload.keyList === 'cons' ? 'consList' : 'prosList'
-      const list = [...state[key], action.payload]
-      return {...state, [key]: list}
+      const addListKey = action.payload.keyList
+      const list = [...state[addListKey], action.payload]
+      return {...state, [addListKey]: list}
       break;
     case types.EDIT_INPUT:
-      const editListKey = action.payload.keyList === 'cons' ? 'consList' : 'prosList'
+      const editListKey = action.payload.keyList
       const currentInputToEdit = [...state[editListKey]]
       const indexToEdit = currentInputToEdit.findIndex(i => i.id === action.payload.id)
       const newInputToUpdate = {
@@ -21,12 +25,12 @@ const reducer = (state = initialState, action) => {
         text: action.payload.text
       }
       const newEditedList = [...currentInputToEdit.slice(0, indexToEdit),
-                            newInputToUpdate,
+                             newInputToUpdate,
                              ...currentInputToEdit.slice(indexToEdit+1)]
       return {...state, [editListKey]: newEditedList}
       break;
     case types.REMOVE_INPUT:
-      const removeListKey = action.payload.keyList === 'cons' ? 'consList' : 'prosList'
+      const removeListKey = action.payload.keyList
       const currentInputToDelete = [...state[removeListKey]]
       const indexToDelete = currentInputToDelete.findIndex(i => i.id === action.payload.id)
       const newList = [...currentInputToDelete.slice(0, indexToDelete),
