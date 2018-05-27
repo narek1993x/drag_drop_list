@@ -10,8 +10,9 @@ import './InputList.css'
 const cardTarget = {
 	drop(props, monitor, component ) {
 		const { id } = props;
-    const sourceObj = monitor.getItem();
-		if ( id !== sourceObj.id ) component.pushCard(sourceObj.card);
+    const sourceObj = monitor.getItem()
+
+		if ( id !== sourceObj.listId ) component.pushCard(sourceObj.card)
 		return {
 			listId: id
 		};
@@ -39,9 +40,10 @@ class InputList extends Component {
   }
 
   pushCard = card => {
+    const newCard = {...card, keyList: card.keyList === 'pros' ? 'cons' : 'pros' }
 		this.setState(update(this.state, {
 			list: {
-				$push: [ card ]
+				$push: [ newCard ]
 			}
 		}), () => this.props.dispatch(updateList(this.state.list, this.props.headerText)));
 	}
@@ -57,7 +59,7 @@ class InputList extends Component {
 	}
 
   moveCard = (dragIndex, hoverIndex) => {
-		const { list } = this.state
+    const { list } = this.state
     const dragCard = list[dragIndex]
 
 		this.setState(
@@ -85,7 +87,7 @@ class InputList extends Component {
           {list.map((item, i) => {
             return (
               <Input orderNum={i+1}
-                listId={item.id}
+                listId={this.props.id}
                 text={item.text}
                 key={item.id}
                 index={i}
@@ -96,7 +98,7 @@ class InputList extends Component {
             )
           })}
           <Input
-            listId={list.length + 1}
+            listId='initial'
             text=''
             key='initial'
             orderNum={list.length + 1}

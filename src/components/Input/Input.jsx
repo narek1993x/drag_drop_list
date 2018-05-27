@@ -25,14 +25,14 @@ const cardSource = {
 		}
   },
   canDrag(props, monitor) {
-    return props.listId.length > 12
+    return props.listId !== 'initial'
   },
   endDrag(props, monitor) {
-		const item = monitor.getItem();
-		const dropResult = monitor.getDropResult();	
-
+		const item = monitor.getItem()
+    const dropResult = monitor.getDropResult()
+    
 		if ( dropResult && dropResult.listId !== item.listId ) {
-			props.removeCard(item.index);
+			props.removeCard(item.index)
 		}
 	}
 }
@@ -41,7 +41,7 @@ const cardTarget = {
 	hover(props, monitor, component) {
 		const dragIndex = monitor.getItem().index
     const hoverIndex = props.index
-    const sourceListId = monitor.getItem().listId;	
+    const sourceListId = monitor.getItem().listId	
 
 		if (dragIndex === hoverIndex) {
 			return
@@ -59,11 +59,11 @@ const cardTarget = {
 		if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
 			return
     }
-    
+
     if ( props.listId === sourceListId ) {
 			props.moveCard(dragIndex, hoverIndex)
 			monitor.getItem().index = hoverIndex
-		}
+    }
 	},
 }
 
@@ -97,17 +97,19 @@ class Input extends Component {
   handleBlur = e => {
     const { value } = e.currentTarget
     const { keyList } = this.props
-    const { listId = '' } = this.props
+    const { card } = this.props
+
+    const id = card && card.id
 
     const props = {
       text: value,
       keyList
     }
 
-    if (!value && listId) {
-      this.props.dispatch(removeInput({id: listId, keyList}))
-    } else if (value && listId && listId.length > 12) {
-      this.props.dispatch(editInput({id: listId, keyList, text: value}))
+    if (!value && id) {
+      this.props.dispatch(removeInput({id, keyList}))
+    } else if (value && id && id !== 'initial') {
+      this.props.dispatch(editInput({id, keyList, text: value}))
     } else {
       value && this.props.dispatch(addInput(props))
     }   
@@ -121,7 +123,7 @@ class Input extends Component {
     const opacity = isDragging ? 0 : 1
 
     return connectDragSource(
-      connectDropTarget(<div className='Input' style={listId.length > 12 ? {...style, opacity} : {}}>       
+      connectDropTarget(<div className='Input' style={listId !== 'initial' ? {...style, opacity} : null}>       
         <h3 className='Input-editable-text' onClick={this.handleInputClick}>
           <b>{orderNum}.</b>
           {isInputClick
