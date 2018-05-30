@@ -2,11 +2,9 @@ import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addInput, editInput, removeInput } from '../../store/prosCons/actions'
 import { DragSource, DropTarget } from 'react-dnd'
-import Aux from '../Aux'
-import ItemTypes from '../../ItemTypes'
-import './Input.css'
+import * as actions from '../actions'
+import { INPUT } from '../actions/constants'
 
 const style = {
 	border: '1px dashed gray',
@@ -67,10 +65,10 @@ const cardTarget = {
 	},
 }
 
-@DropTarget(ItemTypes.INPUT, cardTarget, connect => ({
+@DropTarget(INPUT, cardTarget, connect => ({
 	connectDropTarget: connect.dropTarget(),
 }))
-@DragSource(ItemTypes.INPUT, cardSource, (connect, monitor) => ({
+@DragSource(INPUT, cardSource, (connect, monitor) => ({
 	connectDragSource: connect.dragSource(),
 	isDragging: monitor.isDragging(),
 }))
@@ -86,8 +84,8 @@ class Input extends Component {
 		index: PropTypes.number.isRequired,
 		isDragging: PropTypes.bool.isRequired,
 		listId: PropTypes.any.isRequired,
-		text: PropTypes.string.isRequired,
-		moveCard: PropTypes.func.isRequired,
+		text: PropTypes.string,
+		moveCard: PropTypes.func,
 	}
 
   handleInputClick = () => {
@@ -96,9 +94,7 @@ class Input extends Component {
 
   handleBlur = e => {
     const { value } = e.currentTarget
-    const { keyList } = this.props
-    const { card } = this.props
-
+    const { keyList, card } = this.props
     const id = card && card.id
 
     const props = {
@@ -107,11 +103,11 @@ class Input extends Component {
     }
 
     if (!value && id) {
-      this.props.dispatch(removeInput({id, keyList}))
+      this.props.removeInput({id, keyList})
     } else if (value && id && id !== 'initial') {
-      this.props.dispatch(editInput({id, keyList, text: value}))
+      this.props.editInput({id, keyList, text: value})
     } else {
-      value && this.props.dispatch(addInput(props))
+      value && this.props.addInput(props)
     }   
     
     this.setState({isInputClick: false})
@@ -126,20 +122,20 @@ class Input extends Component {
       connectDropTarget(<div className='Input' style={listId !== 'initial' ? {...style, opacity} : null}>       
         <h3 className='Input-editable-text' onClick={this.handleInputClick}>
           <b>{orderNum}.</b>
-          {isInputClick
-            ? <input autoFocus
-                onFocus={ev => {
-                  const currentTarget = ev.currentTarget
-                  setTimeout(() => currentTarget.select(), 100)
-                }}
-                onBlur={this.handleBlur}
-                defaultValue={text}
-                onChange={this.handleInputClick}/>
-            : <span>{text}</span>}
+          {isInputClick ? (
+            <input autoFocus
+              onFocus={ev => {
+                const currentTarget = ev.currentTarget
+                setTimeout(() => currentTarget.select(), 100)
+              }}
+              onBlur={this.handleBlur}
+              defaultValue={text}
+              onChange={this.handleInputClick}/>
+          ) : <span>{text}</span>}
         </h3>
       </div>)
     )
   }
 }
 
-export default connect()(Input)
+export default connect(null, actions)(Input)

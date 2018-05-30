@@ -1,4 +1,11 @@
-import * as types from './actionTypes'
+import * as types from '../actions/constants'
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
 
 const initialState = {
   pros: [],
@@ -10,12 +17,13 @@ const reducer = (state = initialState, action) => {
     case types.UPDATE_LIST:
       const updateListKey = action.payload.keyList
       return {...state, [updateListKey]: action.payload.list}
-      break;
+
     case types.ADD_INPUT:
       const addListKey = action.payload.keyList
-      const list = [...state[addListKey], action.payload]
+      const newProps = {...action.payload, id: guid()}
+      const list = [...state[addListKey], newProps]
       return {...state, [addListKey]: list}
-      break;
+
     case types.EDIT_INPUT:
       const editListKey = action.payload.keyList
       const currentInputToEdit = [...state[editListKey]]
@@ -28,15 +36,15 @@ const reducer = (state = initialState, action) => {
                              newInputToUpdate,
                              ...currentInputToEdit.slice(indexToEdit+1)]
       return {...state, [editListKey]: newEditedList}
-      break;
+
     case types.REMOVE_INPUT:
       const removeListKey = action.payload.keyList
       const currentInputToDelete = [...state[removeListKey]]
       const indexToDelete = currentInputToDelete.findIndex(i => i.id === action.payload.id)
       const newList = [...currentInputToDelete.slice(0, indexToDelete),
                        ...currentInputToDelete.slice(indexToDelete+1)]
+  
       return {...state, [removeListKey]: newList}
-      break;
     default: return state
   }
 }

@@ -8,3 +8,77 @@ body {
   width: 600px;
   margin: 10px auto;
 }
+
+.SubHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: grey;
+  height: 60px;
+}
+
+.Boards {
+  display: flex;
+}
+
+.SubHeader h2 {
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 0px;
+}
+
+.InputList {
+  border: 1px solid grey;
+  height: 500px;
+  width: 50%;
+  overflow: auto;
+}
+
+.InputList-Pros {
+  border-right: 1px solid black;
+}
+
+.InputList-header {
+  border-bottom: 1px solid black;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0px;
+  background: #ffffff;
+  z-index: 1;
+  text-transform: uppercase;
+}
+
+.InputList-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 10px;
+  min-height: 70px;
+}
+
+.Input {
+  display: flex;
+  align-items: center;
+}
+
+.Input-editable-text {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: #000000;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  height: 25px;
+}
+
+.Input-editable-text b {
+  margin-right: 5px
+}
+
+.Input-editable-text span {
+  min-width: 200px;
+}

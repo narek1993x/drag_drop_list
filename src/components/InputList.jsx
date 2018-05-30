@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { DropTarget } from 'react-dnd'
-import Input from '../Input'
 import update from 'immutability-helper'
-import { updateList } from '../../store/prosCons/actions'
-import ItemTypes from '../../ItemTypes'
-import './InputList.css'
+import Input from './Input'
+import * as actions from '../actions'
+import { INPUT } from '../actions/constants'
 
 const cardTarget = {
 	drop(props, monitor, component ) {
@@ -19,7 +18,7 @@ const cardTarget = {
 	}
 }
 
-@DropTarget(ItemTypes.INPUT, cardTarget, (connect, monitor) => ({
+@DropTarget(INPUT, cardTarget, (connect, monitor) => ({
 	connectDropTarget: connect.dropTarget(),
 	isOver: monitor.isOver(),
 	canDrop: monitor.canDrop()
@@ -45,7 +44,7 @@ class InputList extends Component {
 			list: {
 				$push: [ newCard ]
 			}
-		}), () => this.props.dispatch(updateList(this.state.list, this.props.headerText)));
+		}), () => this.props.updateList(this.state.list, this.props.keyList))
 	}
  
 	removeCard = index => {		
@@ -55,7 +54,7 @@ class InputList extends Component {
 					[index, 1]
 				]
 			}
-		}), () => this.props.dispatch(updateList(this.state.list, this.props.headerText)) )
+		}), () => this.props.updateList(this.state.list, this.props.keyList))
 	}
 
   moveCard = (dragIndex, hoverIndex) => {
@@ -67,25 +66,22 @@ class InputList extends Component {
 				list: {
 					$splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
 				},
-      }),
-      () => this.props.dispatch(updateList(this.state.list, this.props.headerText))
-    )    
+      }), () => this.props.updateList(this.state.list, this.props.keyList))    
 	}
   
   render() {
     const { list } = this.state
+    const { keyList, canDrop, isOver, connectDropTarget } = this.props
 
-    const { headerText, canDrop, isOver, connectDropTarget } = this.props
-    const isActive = canDrop && isOver
-  
+    const initialNum = list.length + 1
+    const isActive = canDrop && isOver  
     const backgroundColor = isActive ? 'lightgreen' : '#FFF'
 
     return (
       <div className='InputList'>
-        <div className='InputList-header'>{headerText}</div>
+        <div className='InputList-header'>{keyList}</div>
         {connectDropTarget(<div className='InputList-content' style={{backgroundColor}}>
-          {list.map((item, i) => {
-            return (
+          {list.map((item, i) => (
               <Input orderNum={i+1}
                 listId={this.props.id}
                 text={item.text}
@@ -94,22 +90,12 @@ class InputList extends Component {
                 card={item}
                 keyList={item.keyList}
                 removeCard={this.removeCard}
-                moveCard={this.moveCard} />
-            )
-          })}
-          <Input
-            listId='initial'
-            text=''
-            key='initial'
-            orderNum={list.length + 1}
-            index={list.length + 1}
-            keyList={headerText}
-            removeCard={this.removeCard}
-            moveCard={this.moveCard} />
+                moveCard={this.moveCard} />))}
+          <Input listId='initial' key='initial' orderNum={initialNum} index={initialNum} keyList={keyList} />
         </div>)} 
       </div>
     )
   }
 }
 
-export default connect()(InputList)
+export default connect(null, actions)(InputList)
