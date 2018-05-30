@@ -28,10 +28,6 @@ class InputList extends Component {
     list: []
   }
 
-  componentWillMount () {
-    this.setState({list: this.props.list})
-  }
-
   componentWillReceiveProps = (nextProps) => {
     if (this.state.list !== nextProps.list) {
       this.setState({list: nextProps.list})
