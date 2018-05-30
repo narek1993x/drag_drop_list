@@ -9,7 +9,7 @@ body {
   margin: 10px auto;
 }
 
-.SubHeader {
+.Header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,14 +17,14 @@ body {
   height: 60px;
 }
 
-.Boards {
-  display: flex;
-}
-
-.SubHeader h2 {
+.Header h2 {
   font-weight: bold;
   color: #ffffff;
   margin-bottom: 0px;
+}
+
+.Content {
+  display: flex;
 }
 
 .InputList {
