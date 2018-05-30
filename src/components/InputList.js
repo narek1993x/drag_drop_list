@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import { DropTarget } from 'react-dnd'
 import update from 'immutability-helper'
 import Input from './Input'
@@ -92,6 +93,13 @@ class InputList extends Component {
       </div>
     )
   }
+}
+
+InputList.propTypes = {
+  connectDropTarget: PropTypes.func,
+  keyList: PropTypes.string,
+  id: PropTypes.number,
+  list: PropTypes.array,
 }
 
 export default connect(null, actions)(InputList)

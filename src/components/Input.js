@@ -78,16 +78,6 @@ class Input extends Component {
     text: ''
   }
 
-  static propTypes = {
-		connectDragSource: PropTypes.func.isRequired,
-		connectDropTarget: PropTypes.func.isRequired,
-		index: PropTypes.number.isRequired,
-		isDragging: PropTypes.bool.isRequired,
-		listId: PropTypes.any.isRequired,
-		text: PropTypes.string,
-		moveCard: PropTypes.func,
-	}
-
   handleInputClick = () => {
     this.setState({ isInputClick: true })
   }
@@ -136,6 +126,19 @@ class Input extends Component {
       </div>)
     )
   }
+}
+
+Input.propTypes = {
+  connectDragSource: PropTypes.func,
+  connectDropTarget: PropTypes.func,
+  index: PropTypes.number,
+  isDragging: PropTypes.bool,
+  listId: PropTypes.any,
+  keyList: PropTypes.string,
+  orderNum: PropTypes.number,
+  text: PropTypes.string,
+  moveCard: PropTypes.func,
+  removeCard: PropTypes.func,
 }
 
 export default connect(null, actions)(Input)
