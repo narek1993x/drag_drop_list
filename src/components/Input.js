@@ -84,22 +84,23 @@ class Input extends Component {
 
   handleBlur = e => {
     const { value } = e.currentTarget
-    const { keyList, card } = this.props
-    const id = card && card.id
+    const { keyList, listId, card } = this.props
+    const id = (card && card.id) || listId
 
     const props = {
       text: value,
-      keyList
+      keyList,
+      id
     }
 
-    if (!value && id) {
-      this.props.removeInput({id, keyList})
-    } else if (value && id && id !== 'initial') {
-      this.props.editInput({id, keyList, text: value})
+    if (value && id === 'initial') {
+      this.props.addInput(props)
+    } else if (value && id) {
+      this.props.editInput(props)
     } else {
-      value && this.props.addInput(props)
-    }   
-    
+      this.props.removeInput(props)
+    }
+
     this.setState({isInputClick: false})
   }
 

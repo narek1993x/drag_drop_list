@@ -1,36 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
-import TouchBackend from 'react-dnd-touch-backend'
+import React, { Component } from 'react'
 import Header from './components/Header'
-import InputList from './components/InputList'
+import Layout from './components/Layout'
 
-const isMobile = Boolean(navigator.userAgent.match(/iPad|iPhone|Android/))
-let backend = isMobile
-  ? TouchBackend
-  : HTML5Backend
-
-const App = ({prosList, consList}) => {
-  const inputList = [
-    {key: 'pros', list: prosList },
-    {key: 'cons', list: consList }
-  ]
+const App = (props) => {
   return (
     <div className='App'>
       <Header />
-      <div className='Content'>
-        {inputList.map((item, i) => (
-          <InputList keyList={item.key} id={i} key={i} list={item.list} />
-        ))}
-      </div>
+      <Layout />
     </div>  
   )
 }
 
-const mapStateToProps = state => ({
-  prosList: state.prosCons.pros,
-  consList: state.prosCons.cons
-})
-
-export default DragDropContext(backend)(connect(mapStateToProps)(App))
+export default App
