@@ -1,7 +1,7 @@
 import * as types from './constants'
 
-export const updateList = props => {
-  return { type: types.UPDATE_LIST, payload: props}
+export const updateList = (list, keyList) => {
+  return { type: types.UPDATE_LIST, payload: {list, keyList}}
 }
 
 export const addInput = props => {  

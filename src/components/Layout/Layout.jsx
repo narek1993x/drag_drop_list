@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import TouchBackend from 'react-dnd-touch-backend'
-import InputList from './InputList'
+import InputList from '../InputList'
+import './Layout.styl'
 
 const isMobile = Boolean(navigator.userAgent.match(/iPad|iPhone|Android/))
 let backend = isMobile
@@ -20,8 +21,8 @@ const Layout = ({prosList, consList}) => {
     <div className='Layout'>
       {inputList.map((item, i) => (
         <InputList
-          key={i}
           id={i}
+          key={item.key}
           list={item.list}
           keyList={item.key} />
       ))}

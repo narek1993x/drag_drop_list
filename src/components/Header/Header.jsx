@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import './Header.styl'
 
 const Header = props => {
   return (

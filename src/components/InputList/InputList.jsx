@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { DropTarget } from 'react-dnd'
 import update from 'immutability-helper'
-import Input from './Input'
-import * as actions from '../actions'
-import { INPUT } from '../actions/constants'
+import Input from '../Input'
+import * as actions from '../../actions'
+import { INPUT } from '../../actions/constants'
+import './InputList.styl'
 
 const cardTarget = {
 	drop(props, monitor, component ) {

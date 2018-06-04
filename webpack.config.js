@@ -16,9 +16,14 @@ module.exports = {
           plugins: ["transform-decorators-legacy"]
         }
       },
-      {
-        test: /\.css/,
-        loaders: ['style', 'css'],
+      // {
+      //   test: /\.css/,
+      //   loaders: ['style', 'css'],
+      //   include: __dirname + '/src'
+      // },
+      { 
+        test: /\.styl$/,
+        loader: 'style-loader!css-loader!stylus-loader',
         include: __dirname + '/src'
       }
     ]

@@ -3,8 +3,9 @@ import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { DragSource, DropTarget } from 'react-dnd'
-import * as actions from '../actions'
-import { INPUT } from '../actions/constants'
+import * as actions from '../../actions'
+import { INPUT } from '../../actions/constants'
+import './Input.styl'
 
 const style = {
 	border: '1px dashed gray',
