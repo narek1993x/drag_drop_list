@@ -1,15 +1,20 @@
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
+  devtool: 'cheap-module-eval-source-map',
   entry: ['./src/index.js'],
   output: {
-    path: __dirname,
-    publicPath: '/',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '',
+    chunkFilename: '[id].js',
     filename: 'bundle.js'
   },
   module: {
     loaders: [
       {
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         include: __dirname + '/src',
         query: {
           presets: ['react', 'es2015', 'stage-1'],
@@ -30,7 +35,7 @@ module.exports = {
     
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx']
   },
   devServer: {
     historyApiFallback: true,
@@ -39,5 +44,12 @@ module.exports = {
       aggregateTimeout: 300,
       poll: 1000
     }
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + '/index.html',
+      filename: 'index.html',
+      inject: 'body'
+    })
+  ] 
 };
