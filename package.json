@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --open",
     "build": "rimraf dist && webpack --config webpack.prod.config.js --progress --profile --color"
   },
   "author": "",

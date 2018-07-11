@@ -2,11 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  watch: false,
   devtool: 'cheap-module-eval-source-map',
   entry: ['./src/index.js'],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '',
+    publicPath: '/',
     chunkFilename: '[id].js',
     filename: 'bundle.js'
   },
@@ -15,11 +16,7 @@ module.exports = {
       {
         exclude: /node_modules/,
         loader: 'babel-loader',
-        include: __dirname + '/src',
-        query: {
-          presets: ['react', 'es2015', 'stage-1'],
-          plugins: ["transform-decorators-legacy"]
-        }
+        include: __dirname + '/src'
       },
       // {
       //   test: /\.css/,
@@ -35,11 +32,11 @@ module.exports = {
     
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './',
+    port: 3000,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000
