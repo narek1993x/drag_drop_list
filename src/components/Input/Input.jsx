@@ -74,35 +74,44 @@ const cardTarget = {
 	isDragging: monitor.isDragging(),
 }))
 class Input extends Component {
-  state = {
-    isInputClick: false,
-    text: ''
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isInputClick: false,
+      text: props.text || '',
+      backSpaceCount: 0
+    }
   }
 
   handleInputClick = () => {
     this.setState({ isInputClick: true })
   }
 
-  handleBlur = e => {
-    const { value } = e.currentTarget
-    const { keyList, listId, card } = this.props
+  handleInputChange = (e) => {
+    this.setState({ text: e.target.value })
+  }
+
+  keyPress = (e) => {
+    if(e.keyCode == 13 || (e.keyCode == 8 && !this.state.text)){
+      this.inputToggle()
+    }
+  }
+
+  inputToggle = () => {
+    const { text } = this.state;
+    const { keyList, listId, card } = this.props;
     const id = (card && card.id) || listId
+    const isEdit = id.length > 20;
 
-    const props = {
-      text: value,
-      keyList,
-      id
+    const method = text && id === 'initial' ? 'addInput' : 
+                   text && isEdit ? 'editInput' :
+                   !text && isEdit ? 'removeInput' : '';
+
+    if (method) {
+      this.props[method]({ text, keyList, id });
     }
-
-    if (value && id === 'initial') {
-      this.props.addInput(props)
-    } else if (value && id) {
-      this.props.editInput(props)
-    } else {
-      this.props.removeInput(props)
-    }
-
-    this.setState({isInputClick: false})
+    this.setState({isInputClick: false, text: ''})
   }
 
   render() {
@@ -120,9 +129,10 @@ class Input extends Component {
                 const currentTarget = ev.currentTarget
                 setTimeout(() => currentTarget.select(), 100)
               }}
-              onBlur={this.handleBlur}
-              defaultValue={text}
-              onChange={this.handleInputClick}/>
+              onKeyDown={this.keyPress}
+              onBlur={this.inputToggle}
+              onChange={this.handleInputChange}
+              defaultValue={text} />
           ) : <span>{text}</span>}
         </h3>
       </div>)
