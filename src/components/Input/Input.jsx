@@ -3,24 +3,36 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { DragSource, DropTarget } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 import * as actions from '../../actions';
 import { INPUT } from '../../actions/constants';
 import './Input.styl';
 
-const style = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move'
-};
+function getStyles(props) {
+  const { isDragging } = props;
+
+  return {
+    border: '1px dashed gray',
+    padding: '0.5rem 1rem',
+    marginBottom: '.5rem',
+    backgroundColor: 'white',
+    cursor: 'move',
+    // IE fallback: hide the real node using CSS when dragging
+    // because IE will ignore our custom "empty image" drag preview.
+    opacity: isDragging ? 0 : 1,
+    height: isDragging ? 0 : ''
+  };
+}
 
 const cardSource = {
   beginDrag(props) {
+    const { listId, card, index, orderNum } = props;
+
     return {
-      index: props.index,
-      listId: props.listId,
-      card: props.card
+      index,
+      listId,
+      card,
+      orderNum
     };
   },
   canDrag(props, monitor) {
@@ -71,7 +83,8 @@ const cardTarget = {
 }))
 @DragSource(INPUT, cardSource, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging()
+  isDragging: monitor.isDragging(),
+  connectDragPreview: connect.dragPreview()
 }))
 class Input extends Component {
   constructor(props) {
@@ -79,10 +92,22 @@ class Input extends Component {
 
     this.state = {
       isInputClick: false,
-      text: props.text || '',
-      backSpaceCount: 0
+      text: props.text || ''
     };
   }
+
+  componentDidMount = () => {
+    const { connectDragPreview } = this.props;
+    if (connectDragPreview) {
+      // Use empty image as a drag preview so browsers don't draw it
+      // and we can draw whatever we want on the custom drag layer instead.
+      connectDragPreview(getEmptyImage(), {
+        // IE fallback: specify that we'd rather screenshot the node
+        // when it already knows it's being dragged so we can hide it with CSS.
+        captureDraggingState: true
+      });
+    }
+  };
 
   handleInputClick = () => {
     this.setState({ isInputClick: true });
@@ -121,21 +146,13 @@ class Input extends Component {
 
   render() {
     const { isInputClick } = this.state;
-    const {
-      orderNum,
-      text,
-      listId,
-      isDragging,
-      connectDragSource,
-      connectDropTarget
-    } = this.props;
-    const opacity = isDragging ? 0 : 1;
+    const { orderNum, text, listId, connectDragSource, connectDropTarget } = this.props;
 
     return connectDragSource(
       connectDropTarget(
         <div
           className="Input"
-          style={listId !== 'initial' ? { ...style, opacity } : null}
+          style={listId !== 'initial' ? { ...getStyles(this.props) } : null}
         >
           <h3 className="Input-editable-text" onClick={this.handleInputClick}>
             <b>{orderNum}.</b>
