@@ -4,14 +4,14 @@ export const updateList = (list, type) => {
   return { type: types.UPDATE_LIST, payload: { list, type } };
 };
 
-export const addInput = (props) => {
+export const addInput = props => {
   return { type: types.ADD_INPUT, payload: props };
 };
 
-export const editInput = (props) => {
+export const editInput = props => {
   return { type: types.EDIT_INPUT, payload: props };
 };
 
-export const removeInput = (props) => {
+export const removeInput = props => {
   return { type: types.REMOVE_INPUT, payload: props };
 };

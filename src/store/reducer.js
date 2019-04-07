@@ -6,7 +6,20 @@ function guid() {
       .toString(16)
       .substring(1);
   }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  return (
+    s4() +
+    s4() +
+    '-' +
+    s4() +
+    '-' +
+    s4() +
+    '-' +
+    s4() +
+    '-' +
+    s4() +
+    s4() +
+    s4()
+  );
 }
 
 const initialState = {
@@ -29,7 +42,9 @@ const reducer = (state = initialState, action) => {
     case types.EDIT_INPUT:
       const editListKey = action.payload.type;
       const currentInputToEdit = [...state[editListKey]];
-      const indexToEdit = currentInputToEdit.findIndex((i) => i.id === action.payload.id);
+      const indexToEdit = currentInputToEdit.findIndex(
+        i => i.id === action.payload.id
+      );
       const newInputToUpdate = {
         ...currentInputToEdit[indexToEdit],
         text: action.payload.text
@@ -44,7 +59,9 @@ const reducer = (state = initialState, action) => {
     case types.REMOVE_INPUT:
       const removeListKey = action.payload.type;
       const currentInputToDelete = [...state[removeListKey]];
-      const indexToDelete = currentInputToDelete.findIndex((i) => i.id === action.payload.id);
+      const indexToDelete = currentInputToDelete.findIndex(
+        i => i.id === action.payload.id
+      );
       const newList = [
         ...currentInputToDelete.slice(0, indexToDelete),
         ...currentInputToDelete.slice(indexToDelete + 1)

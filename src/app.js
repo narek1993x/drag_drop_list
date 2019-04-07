@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import Header from './components/Header'
-import Layout from './components/Layout'
+import React, { Component } from 'react';
+import Header from './components/Header';
+import Layout from './components/Layout';
 
-const App = (props) => {
+const App = props => {
   return (
-    <div className='App'>
+    <div className="App">
       <Header />
       <Layout />
-    </div>  
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;

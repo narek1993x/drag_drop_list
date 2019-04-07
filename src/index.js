@@ -6,10 +6,11 @@ import App from './app';
 import rootReducer from './store';
 import './index.styl';
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer);
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
-  </Provider>
-  , document.querySelector('.container'));
+  </Provider>,
+  document.querySelector('.container')
+);
