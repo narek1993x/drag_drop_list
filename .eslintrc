@@ -26,6 +26,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-case-declarations": "warn",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "arrow-parens": ["error", "as-needed"]
   }
 }
