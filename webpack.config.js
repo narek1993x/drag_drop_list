@@ -36,7 +36,8 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    port: 3000,
+    host: '0.0.0.0',
+    port: 8080,
     watchOptions: {
       aggregateTimeout: 300,
       poll: 1000

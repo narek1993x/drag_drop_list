@@ -1,11 +1,11 @@
 {
-  "name": "redux-simple-starter",
+  "name": "dnd-app",
   "version": "1.0.0",
   "description": "Drag and Drop List",
   "main": "index.js",
   "repository": "",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --open",
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --inline",
     "build": "rimraf dist && webpack --config webpack.prod.config.js --progress --profile --color",
     "lint": "eslint --fix src/ && echo 'Lint complete.'"
   },
